@@ -7,12 +7,20 @@ module.exports = class PeopleService {
 
     updatePeople(id, people) {
         // To be implemented!
-        // let people = this.people;
 
-        // let person;
-        // people.map(person => {
-            
-        // })
+        this.peoples.filter(person => {
+            if (person.id == id) {
+                person = people;
+                person.id = id
+                people.id = id;
+            }
+        });
+
+        fs.writeFile(__dirname + '/people.json', JSON.stringify(this.peoples), (error) => {
+            if (error) throw error;
+        });
+
+        return people.id;
     }
     
     getPeople(filters) {

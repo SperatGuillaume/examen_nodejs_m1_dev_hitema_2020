@@ -12,19 +12,24 @@ app.use(bodyParser.json());
 app.use('/api/v1', v1);
 
 v1.put('/people/:id', async (request, response) => {
-    let id = request.params.id;
-    let body = request.body;
-    let person = await peopleService.updatePeople(id, body);
 
-    response.send(person);
+    try {
+        const id = request.params.id;
+        const body = request.body;
+        const people = peopleService.updatePeople(id, body);
+        return people ? response.sendStatus(200) : response.sendStatus(404);
+    } catch (error) {
+        response.sendStatus(404);
+    }
+    
 });
 
 
 v1.get('/people', async (request, response) => {
     let filters = request.query;
 
-    const peoples = await peopleService.getPeople(filters);
-    response.send(peoples);
+    const people = await peopleService.getPeople(filters);
+    response.send(people);
 });
 
 module.exports = app;
